@@ -6,7 +6,7 @@ export default function DefaultLayout() {
   return (
     <>
       <Navigation />
-      <main className="flex-grow-1 py-2 container">
+      <main className="flex-grow-1 py-4 container">
         <Outlet />
       </main>
       <Footer />
