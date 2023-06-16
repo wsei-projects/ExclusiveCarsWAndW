@@ -1,8 +1,15 @@
+import { Outlet } from "react-router-dom";
+import Navigation from "../components/layout/Navigation";
+import Footer from "../components/layout/Footer";
+
 export default function DefaultLayout() {
-    return (
-      <>
-        <button className="btn btn-primary">Testt</button>
-      </>
-    )
-  }
-  
+  return (
+    <>
+      <Navigation />
+      <main className="flex-grow-1 py-2 container">
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  );
+}
