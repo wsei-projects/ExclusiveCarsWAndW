@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import "bootstrap/js/src/collapse.js";
 
 export default function Navigation() {
   const navigation = [
@@ -7,42 +8,50 @@ export default function Navigation() {
       name: "Home",
       url: "/",
     },
+    {
+      id: 2,
+      name: "Szukaj samochodu",
+      url: "/search-car",
+    },
   ];
 
   const loginNavigation = [
     {
       id: 1,
-      name: "Login",
+      name: "Logowanie",
       url: "/login",
     },
     {
       id: 2,
-      name: "Register",
+      name: "Rejestracja",
       url: "/register",
     },
   ];
 
   return (
-    <header>
-      <nav className="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm">
+    <header className="position-sticky top-0 bg-white z-1 bg-white border-bottom shadow-sm">
+      <nav className="navbar navbar-expand-md navbar-light">
         <div className="container">
           <button
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarTogglerDemo01"
-            aria-controls="navbarTogglerDemo01"
+            data-bs-target="#navbarToggleExternalContent"
+            aria-controls="navbarToggleExternalContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <NavLink className="navbar-brand" to="/">
+          <div
+            className="collapse navbar-collapse"
+            id="navbarToggleExternalContent"
+          >
+            <NavLink className="navbar-brand d-none d-md-inline-block" to="/">
               Exclusive Cars W&W
             </NavLink>
-            <div className="d-flex ms-auto">
-              <ul className="navbar-nav nav-pills gap-1 me-5">
+            <div className="d-flex flex-column flex-md-row gap-1 ms-auto mt-3 mt-md-0">
+              <ul className="navbar-nav nav-pills gap-1">
                 {navigation.map((item) => (
                   <li className="nav-item" key={item.id}>
                     <NavLink
