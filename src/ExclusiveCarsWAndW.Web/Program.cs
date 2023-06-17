@@ -33,7 +33,7 @@ builder.Services.AddFastEndpoints();
 builder.Services.AddFastEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-  c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+  c.SwaggerDoc("v1", new OpenApiInfo { Title = "Exclusive Cars W&W API", Version = "v1" });
   c.EnableAnnotations();
   c.OperationFilter<FastEndpointsOperationFilter>();
 });
