@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function RegisterPage() {
   return (
     <div className="row justify-content-center align-items-center">
-      <form className="col-sm-5">
+      <form className="col-md-5">
         <h2 className="mb-4">Rejestracja</h2>
         <div className="mb-3">
           <label htmlFor="exampleFormControlInput1" className="form-label">

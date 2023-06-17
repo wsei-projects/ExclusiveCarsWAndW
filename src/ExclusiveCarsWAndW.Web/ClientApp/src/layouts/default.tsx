@@ -11,7 +11,7 @@ export default function DefaultLayout() {
       <Navigation />
       <main className="flex-grow-1">
         {location.pathname === "/" && <Banner />}
-        <div className="container mt-4">
+        <div className="container my-5">
           <Outlet />
         </div>
       </main>

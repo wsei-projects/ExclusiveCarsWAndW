@@ -76,9 +76,10 @@ export default function SearchCarPage() {
 
   return (
     <section className="row">
+      <h2 className="mb-4">Znajdź swój wymarzony samochód</h2>
       {cars.map((car) => (
-        <div className="col-xl-3 col-lg-4 col-md-6 col-12">
-          <Card key={car.id} car={car} />
+        <div key={car.id} className="col-xl-3 col-lg-4 col-md-6 col-12">
+          <Card car={car} />
         </div>
       ))}
     </section>
