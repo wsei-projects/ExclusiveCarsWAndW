@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   return (
-    <div className="row justify-content-center align-items-center mt-2">
-      <div className="col-sm-5">
+    <div className="row justify-content-center align-items-center">
+      <form className="col-sm-5">
         <h2 className="mb-4">Logowanie</h2>
         <div className="mb-3">
           <label htmlFor="exampleFormControlInput1" className="form-label">
@@ -30,12 +30,12 @@ export default function LoginPage() {
         </div>
 
         <div className="d-grid gap-2">
-          <button type="button" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Zaloguj się
           </button>
           <Link to="/register">Nie masz konta? Zarejestruj się</Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

@@ -7,17 +7,22 @@ export default function Navigation() {
       name: "Home",
       url: "/",
     },
+    {
+      id: 2,
+      name: "Szukaj samochodu",
+      url: "/search-car",
+    },
   ];
 
   const loginNavigation = [
     {
       id: 1,
-      name: "Login",
+      name: "Logowanie",
       url: "/login",
     },
     {
       id: 2,
-      name: "Register",
+      name: "Rejestracja",
       url: "/register",
     },
   ];
@@ -41,8 +46,8 @@ export default function Navigation() {
             <NavLink className="navbar-brand" to="/">
               Exclusive Cars W&W
             </NavLink>
-            <div className="d-flex ms-auto">
-              <ul className="navbar-nav nav-pills gap-1 me-5">
+            <div className="d-flex gap-1 ms-auto">
+              <ul className="navbar-nav nav-pills gap-1">
                 {navigation.map((item) => (
                   <li className="nav-item" key={item.id}>
                     <NavLink

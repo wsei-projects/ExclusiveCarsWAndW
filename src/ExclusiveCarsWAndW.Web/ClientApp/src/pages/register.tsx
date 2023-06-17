@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function RegisterPage() {
   return (
-    <div className="row justify-content-center align-items-center mt-2">
-      <div className="col-sm-5">
+    <div className="row justify-content-center align-items-center">
+      <form className="col-sm-5">
         <h2 className="mb-4">Rejestracja</h2>
         <div className="mb-3">
           <label htmlFor="exampleFormControlInput1" className="form-label">
@@ -42,12 +42,12 @@ export default function RegisterPage() {
         </div>
 
         <div className="d-grid gap-2">
-          <button type="button" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Zarejstruj
           </button>
-          <Link to="/login">Masz już konto? Zalguj się</Link>
+          <Link to="/login">Masz już konto? Zaloguj się</Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

@@ -1,3 +1,8 @@
+
 export default function IndexPage() {
-  return <>Index</>;
+  return (
+    <>
+      index
+    </>
+  );
 }
