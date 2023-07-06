@@ -14,6 +14,7 @@ namespace CarsAPI.Controllers
         private readonly AppDbContext _db;
         private ResponseDto _response;
         private IMapper _mapper;
+
         public CarsController(AppDbContext db, IMapper mapper)
         {
             _db = db;
@@ -52,6 +53,76 @@ namespace CarsAPI.Controllers
             return _response;
         }
 
+        [HttpPost]
+        public IActionResult Post([FromBody] CarsDto carDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid car data");
+                }
 
+                var car = _mapper.Map<Cars>(carDto);
+                _db.Cars.Add(car);
+                _db.SaveChanges();
+
+                var createdCarDto = _mapper.Map<CarsDto>(car);
+                return CreatedAtAction(nameof(Get), new { id = car.Id }, createdCarDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] CarsDto carDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid car data");
+                }
+
+                var existingCar = _db.Cars.FirstOrDefault(c => c.Id == id);
+                if (existingCar == null)
+                {
+                    return NotFound();
+                }
+
+                _mapper.Map(carDto, existingCar);
+                _db.SaveChanges();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var car = _db.Cars.FirstOrDefault(c => c.Id == id);
+                if (car == null)
+                {
+                    return NotFound();
+                }
+
+                _db.Cars.Remove(car);
+                _db.SaveChanges();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
