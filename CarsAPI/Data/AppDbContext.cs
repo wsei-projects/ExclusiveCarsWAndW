@@ -69,6 +69,17 @@ namespace CarsAPI.Data
                 ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/BMW/Z4/10183/1685003672330/front-left-side-47.jpg?impolicy=resize&imwidth=420",
                 Description = "Spacious and versatile SUV."
             });
+            modelBuilder.Entity<Car>().HasData(new Car
+            {
+                Id = 5,
+                Brand = "Skoda",
+                Model = "Fabia",
+                Year = 2022,
+                ClassId = 1,
+                PricePerDay = 50,
+                ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/Lamborghini/Huracan-EVO/6729/1678692048287/front-left-side-47.jpg?tr=w-456",
+                Description = "Spacious and versatile SUV. Lorem ipsum"
+            });
         }
     }
 }
