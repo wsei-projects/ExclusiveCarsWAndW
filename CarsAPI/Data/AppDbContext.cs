@@ -1,18 +1,23 @@
 ﻿using CarsAPI.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarsAPI.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options, IPasswordHasher<User> passwordHasher) : base(options)
         {
+            _passwordHasher = passwordHasher;
         }
+
         public DbSet<Car> Cars { get; set; }
         public DbSet<Rent> Rents { get; set; }
         public DbSet<CarClass> CarClasses { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+
+        private readonly IPasswordHasher<User> _passwordHasher;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +41,31 @@ namespace CarsAPI.Data
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "User" },
                 new Role { Id = 2, Name = "Admin" }
+            );
+
+            var user = new User()
+            {
+                Id = 1,
+                Email = "user@test.com",
+                RoleId = 1,
+            };
+
+            var hashedPassword = _passwordHasher.HashPassword(user, "user123!");
+            user.PasswordHash = hashedPassword;
+
+            var admin = new User()
+            {
+                Id = 2,
+                Email = "admin@test.com",
+                RoleId = 2,
+            };
+
+            var hashedPasswordAdmin = _passwordHasher.HashPassword(admin, "admin123!");
+            admin.PasswordHash = hashedPasswordAdmin;
+
+            modelBuilder.Entity<User>().HasData(
+                user,
+                admin
             );
 
             modelBuilder.Entity<Car>().HasData(new Car

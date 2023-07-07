@@ -4,6 +4,7 @@ using CarsAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarsAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230707202420_add-user")]
+    partial class adduser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,14 +249,14 @@ namespace CarsAPI.Migrations
                         {
                             Id = 1,
                             Email = "user@test.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPMaPFS3bK0iunWtUK/n5S6SCpmyg14uzmr175xg4aOB8+fN9T3294Wg+NDPmjLk3g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAq48pY1iSTWImifAzdi3koHpeFZvWJiibI3fQCMHe1hkGLAcfkW7Bwi8coXQKOAZw==",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 2,
                             Email = "admin@test.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKKlKeLIff4409PRxZ8xpA3snu1syuvIv3rhGYlLzNAP9DF6MTihlKtxdQpTXk9UzA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAq48pY1iSTWImifAzdi3koHpeFZvWJiibI3fQCMHe1hkGLAcfkW7Bwi8coXQKOAZw==",
                             RoleId = 2
                         });
                 });

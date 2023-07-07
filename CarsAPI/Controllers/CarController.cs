@@ -1,5 +1,6 @@
 ﻿using CarsAPI.Data;
 using CarsAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,10 @@ namespace CarsAPI.Controllers
         {
             _db = db;
         }
+
+
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public object Get()
         {
             try
