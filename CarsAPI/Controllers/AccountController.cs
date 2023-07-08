@@ -1,6 +1,7 @@
 ﻿using CarsAPI.Models.Dto;
 using CarsAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -17,6 +18,16 @@ namespace CarsAPI.Controllers
             _accountService = accountService;
         }
 
+        [HttpGet("session")]
+        public ActionResult Get()
+        {
+            var token = HttpContext.Request.Headers["Authorization"];
+            var result = _accountService.GetLoggedUser(token);
+            string json = JsonSerializer.Serialize(result);
+            return Ok(json);
+
+        }
+
         [HttpPost("register")]
         public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {
@@ -30,8 +41,10 @@ namespace CarsAPI.Controllers
         [HttpPost("login")]
         public ActionResult Login([FromBody] LoginDto dto)
         {
-            string token = _accountService.GenerateJwt(dto);
-            return Ok(token);
+            var result = _accountService.GenerateJwtAndGetUser(dto);
+            string json = JsonSerializer.Serialize(result);
+
+            return Ok(json);
         }
     }
 }

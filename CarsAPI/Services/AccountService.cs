@@ -4,18 +4,21 @@ using CarsAPI.Models;
 using CarsAPI.Models.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace CarsAPI.Services
 {
     public interface IAccountService
     {
         void RegisterUser(RegisterUserDto dto);
-        string GenerateJwt(LoginDto dto);
+        object GenerateJwtAndGetUser(LoginDto dto);
+        User GetLoggedUser(StringValues token);
     }
 
     public class AccountService : IAccountService
@@ -29,6 +32,33 @@ namespace CarsAPI.Services
             _context = context;
             _passwordHasher = passwordHasher;
             _authenticationSettings = authenticationSettings;
+        }
+
+        public User GetLoggedUser(StringValues token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new BadRequestException("No token provided");
+            }
+
+            try
+            {
+                var jwtHandler = new JwtSecurityTokenHandler();
+                var decodedToken = jwtHandler.ReadJwtToken(token.ToString().Substring("Bearer ".Length));
+                var userId = decodedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                var user = _context.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefault(u => u.Id == Convert.ToInt32(userId));
+
+                user.PasswordHash = null;
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new BadRequestException("Invalid token");
+            }
         }
 
         public void RegisterUser(RegisterUserDto dto)
@@ -46,7 +76,7 @@ namespace CarsAPI.Services
             _context.SaveChanges();
         }
 
-        public string GenerateJwt(LoginDto dto)
+        public object GenerateJwtAndGetUser(LoginDto dto)
         {
             var user = _context.Users
                 .Include(u => u.Role)
@@ -78,7 +108,9 @@ namespace CarsAPI.Services
             var token = new JwtSecurityToken(_authenticationSettings.JwtIssuer, _authenticationSettings.JwtIssuer, claims, expires: expires, signingCredentials: credentials);
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            return tokenHandler.WriteToken(token);
+            user.PasswordHash = null;
+
+            return new { token = tokenHandler.WriteToken(token), user, message = "Login sucefully" };
         }
     }
 }
