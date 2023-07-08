@@ -29,6 +29,13 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendClient", builder =>
+    {
+        builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    });
+});
 
 var authenticationSettings = new AuthenticationSettings();
 builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
@@ -52,6 +59,8 @@ builder.Services.AddAuthentication(option =>
 
 var app = builder.Build();
 
+
+app.UseCors("FrontendClient");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
