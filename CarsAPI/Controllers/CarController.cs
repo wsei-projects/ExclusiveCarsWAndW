@@ -1,38 +1,137 @@
 ﻿using CarsAPI.Data;
 using CarsAPI.Models;
+using CarsAPI.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarsAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class CarController : ControllerBase
+    [Route("api/[controller]")]
+    public class CarsController : ControllerBase
     {
-        private readonly AppDbContext _db;
+        private readonly AppDbContext _context;
 
-        public CarController(AppDbContext db)
+        public CarsController(AppDbContext context)
         {
-            _db = db;
+            _context = context;
         }
 
-
+        // GET: api/cars
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public object Get()
+        public ActionResult<IEnumerable<CarDto>> GetCars()
         {
-            try
+            var cars = _context.Cars.ToList();
+            var carsDto = cars.Select(c => new CarDto
             {
-                IEnumerable<Car> cars = _db.Cars.ToList();
-                return cars;
-            }
-            catch(Exception ex)
+                Id = c.Id,
+                Brand = c.Brand,
+                Model = c.Model,
+                Year = c.Year,
+                ClassId = c.ClassId,
+                ImageUrl = c.ImageUrl,
+                Description = c.Description
+            }).ToList();
+
+            return carsDto;
+        }
+
+        // GET: api/cars/5
+        [HttpGet("{id}")]
+        public ActionResult<CarDto> GetCar(int id)
+        {
+            var car = _context.Cars.FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
             {
-
+                return NotFound();
             }
-            return null;
 
+            var carDto = new CarDto
+            {
+                Id = car.Id,
+                Brand = car.Brand,
+                Model = car.Model,
+                Year = car.Year,
+                ClassId = car.ClassId,
+                ImageUrl = car.ImageUrl,
+                Description = car.Description
+            };
+
+            return carDto;
+        }
+
+        // POST: api/cars
+        [HttpPost]
+        public ActionResult<CarDto> CreateCar(CarDto carDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var car = new Car
+            {
+                Brand = carDto.Brand,
+                Model = carDto.Model,
+                Year = carDto.Year,
+                ClassId = carDto.ClassId,
+                ImageUrl = carDto.ImageUrl,
+                Description = carDto.Description
+            };
+
+            _context.Cars.Add(car);
+            _context.SaveChanges();
+
+            carDto.Id = car.Id;
+
+            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, carDto);
+        }
+
+        // PUT: api/cars/5
+        [HttpPut("{id}")]
+        public IActionResult UpdateCar(int id, CarDto carDto)
+        {
+            if (id != carDto.Id)
+            {
+                return BadRequest();
+            }
+
+            var car = _context.Cars.FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            car.Brand = carDto.Brand;
+            car.Model = carDto.Model;
+            car.Year = carDto.Year;
+            car.ClassId = carDto.ClassId;
+            car.ImageUrl = carDto.ImageUrl;
+            car.Description = carDto.Description;
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
+        // DELETE: api/cars/5
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCar(int id)
+        {
+            var car = _context.Cars.FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            _context.Cars.Remove(car);
+            _context.SaveChanges();
+
+            return NoContent();
         }
     }
 }

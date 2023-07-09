@@ -4,6 +4,7 @@ using CarsAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarsAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230709114942_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,34 +156,6 @@ namespace CarsAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CarsAPI.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PostID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserComment")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Comment");
-                });
-
             modelBuilder.Entity("CarsAPI.Models.Posts", b =>
                 {
                     b.Property<int>("Id")
@@ -275,14 +250,14 @@ namespace CarsAPI.Migrations
                         {
                             Id = 1,
                             Email = "user@test.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAO+SpsdU6VNf7kIPa2oRYcPlEhtU6Z7Zh+k/VxxhiX/vCHqPj/FrCg4GEuDOOI7PA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEj/MUitOeaWWPL5PJuKI/uebn9pSxkHIRN0N9YJZbtMZ7y5+i6qD8cdjBlcjmlx0Q==",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 2,
                             Email = "admin@test.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH/sw5mjAQtiIC3ILFfCqMD912U9uxq3ocBcHlWHsF/rD70QeLLQo1GsenRyj2WiSQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIp5PP6hGIDAAnRFB7XHXcF7irE0cN2Sklq/+xmy0uEWIIX6GJo5nwvb4FfgxFRlHA==",
                             RoleId = 2
                         });
                 });
@@ -296,25 +271,6 @@ namespace CarsAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Class");
-                });
-
-            modelBuilder.Entity("CarsAPI.Models.Comment", b =>
-                {
-                    b.HasOne("CarsAPI.Models.Posts", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarsAPI.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CarsAPI.Models.Posts", b =>
