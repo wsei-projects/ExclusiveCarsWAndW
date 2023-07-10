@@ -2,6 +2,8 @@
 using CarsAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using CarsAPI.Data;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace CarsAPI.Controllers
 {
@@ -55,6 +57,7 @@ namespace CarsAPI.Controllers
         }
 
         // POST: api/comments
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         public ActionResult<CommentDto> CreateComment(CommentDto commentDto)
         {
@@ -80,6 +83,7 @@ namespace CarsAPI.Controllers
         }
 
         // PUT: api/comments/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult UpdateComment(int id, CommentDto commentDto)
         {
@@ -104,6 +108,7 @@ namespace CarsAPI.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         // DELETE: api/comments/5
         [HttpDelete("{id}")]
         public IActionResult DeleteComment(int id)

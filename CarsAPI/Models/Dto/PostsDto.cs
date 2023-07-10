@@ -10,5 +10,6 @@ namespace CarsAPI.Models.Dto
         public DateTime DateOfCreate { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public string LongDescription { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

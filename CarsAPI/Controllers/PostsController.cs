@@ -3,6 +3,8 @@ using CarsAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CarsAPI.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarsAPI.Controllers
 {
@@ -19,47 +21,37 @@ namespace CarsAPI.Controllers
 
         // GET: api/posts
         [HttpGet]
-        public ActionResult<IEnumerable<PostsDto>> GetPosts()
+        public ActionResult<IEnumerable<Posts>> GetPosts()
         {
-            var posts = _context.Posts.ToList();
-            var postsDto = posts.Select(p => new PostsDto
-            {
-                Id = p.Id,
-                CarId = p.CarId,
-                Title = p.Title,
-                DateOfCreate = p.DateOfCreate,
-                Description = p.Description,
-                LongDescription = p.LongDescription
-            }).ToList();
+            var posts = _context.Posts.Include("Car").ToList();
 
-            return postsDto;
+            return posts;
         }
 
         // GET: api/posts/5
         [HttpGet("{id}")]
-        public ActionResult<PostsDto> GetPost(int id)
+        public ActionResult<Posts> GetPost(int id)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.Id == id);
+            var post = _context.Posts.Include("Car").FirstOrDefault(p => p.Id == id);
 
             if (post == null)
             {
                 return NotFound();
             }
+            return post;
+        }
 
-            var postDto = new PostsDto
-            {
-                Id = post.Id,
-                CarId = post.CarId,
-                Title = post.Title,
-                DateOfCreate = post.DateOfCreate,
-                Description = post.Description,
-                LongDescription = post.LongDescription
-            };
+        // Get: api/posts/5/comments
+        [HttpGet("{id}/comments")]
+        public ActionResult<IEnumerable<Comment>> GetPostComments(int id)
+        {
+            var postcomments = _context.Comment.Include("User").Where(p => p.PostID == id).ToList();
 
-            return postDto;
+            return postcomments;
         }
 
         // POST: api/posts
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<PostsDto> CreatePost(PostsDto postsDto)
         {
@@ -75,7 +67,8 @@ namespace CarsAPI.Controllers
                 Title = postsDto.Title,
                 DateOfCreate = postsDto.DateOfCreate,
                 Description = postsDto.Description,
-                LongDescription = postsDto.LongDescription
+                LongDescription = postsDto.LongDescription,
+                ImageUrl = postsDto.ImageUrl,
             };
 
             _context.Posts.Add(post);
@@ -88,14 +81,10 @@ namespace CarsAPI.Controllers
         }
 
         // PUT: api/posts/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult UpdatePost(int id, PostsDto postsDto)
         {
-            if (id != postsDto.CarId)
-            {
-                return BadRequest();
-            }
-
             var post = _context.Posts.FirstOrDefault(p => p.Id == id);
 
             if (post == null)
@@ -105,9 +94,9 @@ namespace CarsAPI.Controllers
 
             post.CarId = postsDto.CarId;
             post.Title = postsDto.Title;
-            post.DateOfCreate = postsDto.DateOfCreate;
             post.Description = postsDto.Description;
             post.LongDescription = postsDto.LongDescription;
+            post.ImageUrl = postsDto.ImageUrl;
 
             _context.SaveChanges();
 
@@ -115,6 +104,7 @@ namespace CarsAPI.Controllers
         }
 
         // DELETE: api/posts/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeletePost(int id)
         {

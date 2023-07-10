@@ -69,6 +69,30 @@ namespace CarsAPI.Data
                 admin
             );
 
+            modelBuilder.Entity<Posts>().HasData(
+                new Posts
+                {
+                    Id = 1,
+                    CarId = 1,
+                    DateOfCreate = DateTime.Now,
+                    Description = "Krótki opiss na bloga",
+                    LongDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tincidunt nec tellus eu congue. Integer imperdiet ex non ante ullamcorper feugiat. Quisque aliquet ex ipsum, vitae congue eros lacinia suscipit. Pellentesque arcu diam, efficitur nec ullamcorper nec, facilisis nec velit. Maecenas eu bibendum lectus. Curabitur luctus orci eget eros ullamcorper convallis. Nunc dictum mauris eu diam aliquet fermentum. Fusce iaculis tellus eget odio auctor, at dapibus velit aliquam. Sed sed eros nec velit elementum elementum. Cras sollicitudin mauris lobortis lobortis aliquet.",
+                    ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/Jaguar/F-TYPE/7810/1675671305429/front-left-side-47.jpg?tr=w-456",
+                    Title = "Title",
+                },
+                 new Posts
+                 {
+                     Id = 2,
+                     CarId = 2,
+                     DateOfCreate = DateTime.Now,
+                     Description = "Krótki opiss na bloga",
+                     LongDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tincidunt nec tellus eu congue. Integer imperdiet ex non ante ullamcorper feugiat. Quisque aliquet ex ipsum, vitae congue eros lacinia suscipit. Pellentesque arcu diam, efficitur nec ullamcorper nec, facilisis nec velit. Maecenas eu bibendum lectus. Curabitur luctus orci eget eros ullamcorper convallis. Nunc dictum mauris eu diam aliquet fermentum. Fusce iaculis tellus eget odio auctor, at dapibus velit aliquam. Sed sed eros nec velit elementum elementum. Cras sollicitudin mauris lobortis lobortis aliquet.",
+                     ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/Bentley/Continental/7771/1676965640042/front-left-side-47.jpg?tr=w-456",
+                     Title = "Title",
+                 }
+
+            );
+
             modelBuilder.Entity<Car>().HasData(new Car
             {
                 Id = 1,
@@ -76,53 +100,45 @@ namespace CarsAPI.Data
                 Model = "Corolla",
                 Year = 2020,
                 ClassId = 1,
-                ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/Jaguar/F-TYPE/7810/1675671305429/front-left-side-47.jpg?tr=w-456",
                 Description = "Spacious and reliable sedan."
-            });
-
-            modelBuilder.Entity<Car>().HasData(new Car
-            {
-                Id = 2,
-                Brand = "BMW",
-                Model = "M3",
-                Year = 2021,
-                ClassId = 4,
-                ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/BMW/M2/10257/1686225075596/front-left-side-47.jpg?tr=w-456",
-                Description = "Fast exlusive car"
-            });
-
-            modelBuilder.Entity<Car>().HasData(new Car
-            {
-                Id = 3,
-                Brand = "Skoda",
-                Model = "Octavia",
-                Year = 2011,
-                ClassId = 1,
-                ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/Bentley/Continental/7771/1676965640042/front-left-side-47.jpg?tr=w-456",
-                Description = "Comfortable and fuel-efficient sedan."
-            });
-
-            modelBuilder.Entity<Car>().HasData(new Car
-            {
-                Id = 4,
-                Brand = "Mitsubisy",
-                Model = "Outlander",
-                Year = 2019,
-                ClassId = 2,
-                ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/BMW/Z4/10183/1685003672330/front-left-side-47.jpg?impolicy=resize&imwidth=420",
-                Description = "Spacious and versatile SUV."
-            });
-
-            modelBuilder.Entity<Car>().HasData(new Car
-            {
-                Id = 5,
-                Brand = "Skoda",
-                Model = "Fabia",
-                Year = 2022,
-                ClassId = 1,
-                ImageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/Lamborghini/Huracan-EVO/6729/1678692048287/front-left-side-47.jpg?tr=w-456",
-                Description = "Spacious and versatile SUV. Lorem ipsum"
-            });
+            },
+             new Car
+             {
+                 Id = 2,
+                 Brand = "BMW",
+                 Model = "M3",
+                 Year = 2021,
+                 ClassId = 4,
+                 Description = "Fast exlusive car"
+             },
+             new Car
+             {
+                 Id = 3,
+                 Brand = "Skoda",
+                 Model = "Octavia",
+                 Year = 2011,
+                 ClassId = 1,
+                 Description = "Comfortable and fuel-efficient sedan."
+             },
+             new Car
+             {
+                 Id = 4,
+                 Brand = "Mitsubisy",
+                 Model = "Outlander",
+                 Year = 2019,
+                 ClassId = 2,
+                 Description = "Spacious and versatile SUV."
+             },
+             new Car
+             {
+                 Id = 5,
+                 Brand = "Skoda",
+                 Model = "Fabia",
+                 Year = 2022,
+                 ClassId = 1,
+                 Description = "Spacious and versatile SUV. Lorem ipsum"
+             }
+             );
         }
     }
 }

@@ -18,5 +18,7 @@ namespace CarsAPI.Models
         [StringLength(250, ErrorMessage = "Description cannot be longer than 250 characters.")]
         public string Description { get; set; }
         public string LongDescription { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

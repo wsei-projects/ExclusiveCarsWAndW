@@ -30,7 +30,6 @@ namespace CarsAPI.Controllers
                 Model = c.Model,
                 Year = c.Year,
                 ClassId = c.ClassId,
-                ImageUrl = c.ImageUrl,
                 Description = c.Description
             }).ToList();
 
@@ -55,7 +54,6 @@ namespace CarsAPI.Controllers
                 Model = car.Model,
                 Year = car.Year,
                 ClassId = car.ClassId,
-                ImageUrl = car.ImageUrl,
                 Description = car.Description
             };
 
@@ -63,6 +61,7 @@ namespace CarsAPI.Controllers
         }
 
         // POST: api/cars
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<CarDto> CreateCar(CarDto carDto)
         {
@@ -77,7 +76,6 @@ namespace CarsAPI.Controllers
                 Model = carDto.Model,
                 Year = carDto.Year,
                 ClassId = carDto.ClassId,
-                ImageUrl = carDto.ImageUrl,
                 Description = carDto.Description
             };
 
@@ -90,6 +88,7 @@ namespace CarsAPI.Controllers
         }
 
         // PUT: api/cars/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult UpdateCar(int id, CarDto carDto)
         {
@@ -109,7 +108,6 @@ namespace CarsAPI.Controllers
             car.Model = carDto.Model;
             car.Year = carDto.Year;
             car.ClassId = carDto.ClassId;
-            car.ImageUrl = carDto.ImageUrl;
             car.Description = carDto.Description;
 
             _context.SaveChanges();
@@ -118,6 +116,7 @@ namespace CarsAPI.Controllers
         }
 
         // DELETE: api/cars/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteCar(int id)
         {
