@@ -17,6 +17,6 @@ Napisana jest również aplikacja frontendowa https://github.com/wsei-projects/E
 Aplikacja posiada dwie role dla użytkownika User oraz Admin
 
 ## Wykonali
-- Wiktor Rogóż,
+- Wiktor Rogóż 13806, 
 - Patryk Skwarczyński,
 - Wojciech Skirło 14001
