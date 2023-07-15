@@ -9,8 +9,6 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -26,6 +24,7 @@ builder.Services.AddControllers().AddFluentValidation();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IRandomAPIService, RandomAPIService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
@@ -59,7 +58,6 @@ builder.Services.AddAuthentication(option =>
 
 var app = builder.Build();
 
-
 app.UseCors("FrontendClient");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -76,3 +74,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program // needed for integration test project
+{
+}

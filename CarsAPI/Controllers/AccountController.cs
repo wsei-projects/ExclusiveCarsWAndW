@@ -1,9 +1,7 @@
 ﻿using CarsAPI.Models.Dto;
 using CarsAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace CarsAPI.Controllers
 {
@@ -25,7 +23,6 @@ namespace CarsAPI.Controllers
             var result = _accountService.GetLoggedUser(token);
             string json = JsonSerializer.Serialize(result);
             return Ok(json);
-
         }
 
         [HttpPost("register")]

@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 
 namespace CarsAPI.Services
 {
     public interface IAccountService
     {
         void RegisterUser(RegisterUserDto dto);
-        object GenerateJwtAndGetUser(LoginDto dto);
+
+        LoginResultDto GenerateJwtAndGetUser(LoginDto dto);
+
         User GetLoggedUser(StringValues token);
     }
 
@@ -76,7 +76,7 @@ namespace CarsAPI.Services
             _context.SaveChanges();
         }
 
-        public object GenerateJwtAndGetUser(LoginDto dto)
+        public LoginResultDto GenerateJwtAndGetUser(LoginDto dto)
         {
             var user = _context.Users
                 .Include(u => u.Role)
@@ -110,7 +110,12 @@ namespace CarsAPI.Services
 
             user.PasswordHash = null;
 
-            return new { token = tokenHandler.WriteToken(token), user, message = "Login sucefully" };
+            return new LoginResultDto
+            {
+                Token = tokenHandler.WriteToken(token),
+                User = user,
+                Message = "Logged successfully"
+            };
         }
     }
 }
